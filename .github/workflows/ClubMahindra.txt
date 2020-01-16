@@ -1,0 +1,151 @@
+import org.openqa.selenium.webdriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+
+public class Flipkart
+{
+
+public static void main(String[] args)
+{
+
+@BeforeTest
+public void URL()
+{
+System.setProperty("webdriver.chrome.driver","file location")
+WebDriver driver= new chromeDriver()
+}
+
+@Test
+public void clubmahindra()
+{
+
+driver.manage().window().maximize()
+
+driver.navigate().to("​https://www.tripadvisor.in/")
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+//window handles
+String windowhandle= driver.getWindowHandle()
+
+Set<String> winhandles= driver.getWindowHandles();
+
+for(String handle:winhandles)
+{
+if(!handle.equals(windowhandle))
+{
+driver.switchTo().window(handle);
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+
+
+//Click on Search
+
+driver.findElement(By.xpath("//span[@class='brand-global-nav-action-search-Search__label--3PRUD']")).click()
+
+//Enter club mahindra
+
+driver.findElement(By.xpath("//input[@id='mainSearch']")).sendKeys("ClubMahindra");
+
+driver.findElement(By.xpath("//div[text()='Search']")).click();
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+
+//Click on first Searched element
+
+driver.findElement(By.xpath("//span[text()='Club Mahindra Emerald Palms']")).click()
+
+Set<String> winhandles1= driver.getWindowHandles();
+
+for(String handles1:winhandles1)
+{
+driver.switchTo().window(handles1);
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+
+
+// Navigate to next window and Click on Write a review.
+
+
+JavascriptExecutor js = (JavascriptExecutor) driver;
+
+js.executeScript("window.scrollBy(0,1000)");
+
+driver.findElement(By.xpath("//a[text()='Write a review']")).click()
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+
+
+//Hover the mouse on Rating and click on it
+
+
+Actions act= new Actions(driver);
+
+WebElement rating= driver.findElement(By.xpath("//*[@id="bubble_rating"]"))
+
+act.moveToElement(rating).click().build().perform();
+
+
+//Enter Review title and Review message
+
+driver.findElement(By.xpath("//input[@name='ReviewTitle']")).sendKeys("Review title")
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+
+driver.findElement(By.xpath("//textarea[@id='ReviewText']")).sendKeys("Review of your page")
+
+JavascriptExecutor js = (JavascriptExecutor) driver;
+
+js.executeScript("window.scrollBy(0,1000)");
+
+
+
+//Check if hotel ratings is visible and enter ratings
+
+
+if(driver.findElement(By.xpath("//*[text()='Hotel Ratings']")).isVisible())
+{
+driver.findElement(By.xpath("//span[@id='qid12_bubbles']")).click()
+}
+
+driver.findElement(By.xpath("//div[@id='SUBMIT']")).click();
+
+driver.switchTo().window(handle)
+
+}
+
+//Switch back to main Window and Close the driver
+
+driver.switchTo().window(windowhandle)
+
+}
+
+driver.quit();
+}
+
+
+
+
+}
+
+
+@AfterTest
+public void ending()
+{
+driver.quit()
+}
+
+
+
+}
+}

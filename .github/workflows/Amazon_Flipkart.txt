@@ -1,0 +1,138 @@
+import org.openqa.selenium.webdriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Flipkart
+{
+
+public static void main(String[] args)
+{
+String FlipkartPrice;
+String AmazonPrice;
+@BeforeTest
+public void URL()
+{
+System.setProperty("webdriver.chrome.driver","file location")
+WebDriver driver= new chromeDriver()
+}
+@Test(priority=1)
+public void Amazon()
+{
+String URL= "https://www.amazon.in"
+driver.get(URL)
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+driver.manage().window().maximize()
+
+//Search for iPhone
+driver.findElement(By.Id("twotabsearchtextbox")).sendKeys("iPhone XR (64GB) - Yellow")
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+//Click on Search
+driver.findElement(By.class("nav-input")).click()
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+
+//window handles
+String windowhandle= driver.getWindowHandle()
+
+driver.findElement(By.xpath("//span[text()='Apple iPhone XR (64GB) - Yellow'])").click()
+
+Set<String> winhandles= driver.getWindowHandles();
+
+
+//GetPrice
+
+for(String handle:winhandles)
+{
+if(!handle.equals(windowhandle))
+{
+driver.switchTo().window(handle);
+AmazonPrice=driver.findElement(By.xpath("//span[@id='priceblock_ourprice']")).click();
+System.out.println("AmazonPrice "+AmazonPrice)
+}
+}
+driver.close();
+}
+
+
+@Test(priority=2)
+public void Flipkart()
+{
+String URL= "https://www.flipkart.com/"
+//Enter URL
+driver.get(URL)
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+driver.manage().window().maximize()
+
+//Search for Element
+
+driver.findElement(By.xpath("//input[@type='text']")).sendKeys("iPhone XR (64GB) - Yellow")
+
+driver.findElememt(By.xpath("//button[@class='vh79eN']")).click()
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+String windowhandle= driver.getWindowHandle()
+
+//Click on Element
+
+driver.findElement(By.xpath("//div[text()='Apple iPhone XR (Yellow, 64 GB)']")).click()
+
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+
+Set<String> winhandles= driver.getWindowHandles();
+
+
+//Get the flipkart price
+
+for(String handle:winhandles)
+{
+if(!handle.equals(windowhandle))
+{
+driver.switchTo().window(handle);
+driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS)
+FlipkartPrice=driver.findElement(By.xpath("//div[@class='_1vC4OE _3qQ9m1']")).getText();
+System.out.println("FlipkartPrice "+FlipkartPrice)
+}
+}
+driver.close()
+}
+
+@Test(priority=3)
+public void CompareValues()
+{
+
+Float PriceAmazon=Float.parseFloat(AmazonPrice)
+Float PriceFlipKart=Float.parseFloat(FlipkartPrice)
+
+if(PriceAmazon>PriceFlipKart)
+{
+System.out.println("Amazon price is greater than Flipkart Price")
+}
+else
+{
+System.out.println("Flipkart price is greater than Amazon Price")
+}
+
+
+}
+
+
+@AfterTest
+public void endSession()
+{
+driver.quit();
+}
+
+}
+}
